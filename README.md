@@ -5,6 +5,7 @@ This package is designed to easily split **Ukrainian** words into syllables.
 # Ukrainian-Syllable-Splitter
 This package is designed to easily split **Ukrainian** words into syllables. 
 To use run in terminal:
+
 ```pip install git+https://github.com/anastasiia-mozg/Ukrainian-Syllable-Splitter.git```
 
 
