@@ -41,7 +41,8 @@ class SyllableSplitter:
     def __get_rule(self, match) -> str:
         rule = str()
         if match:
-            rule = next(name for name, value in d.items() if value)
+            groups = match.groupdict()
+            rule = next(name for name, value in groups.items() if value)
         return rule
 
    
