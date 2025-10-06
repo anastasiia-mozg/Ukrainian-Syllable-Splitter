@@ -1,5 +1,5 @@
 import re, copy
-from .Transcriptor import Transcriptor
+from .Transcriptor import Transcriptor, split_to_phonemes
 from .phoneme_subst_dict import phoneme_to_code_dict
 
 
@@ -12,7 +12,7 @@ class SyllableSplitter:
         self.__patterns = re.compile('|'.join(self.__syllable_patterns))
         
         self.phoneme_transcription = Transcriptor(self.word).transcribe('g2p') # we need it as in Ukrainian there are some letters that stand for two different sounds
-        self.phonemes = Transcriptor.split_to_phonemes(self.phoneme_transcription).pop()
+        self.phonemes = split_to_phonemes(self.phoneme_transcription).pop()
         self.phoneme_code = self.__get_phoneme_code()
         self.syllables_num = len(self.phoneme_code) - len(self.phoneme_code.replace('V', ''))
 
