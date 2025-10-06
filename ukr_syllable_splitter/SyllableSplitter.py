@@ -11,7 +11,7 @@ class SyllableSplitter:
         self.__syllable_patterns = ['(?P<Rule1>V([SDG]|[DG]S|GG|DD|DDS|GGS)V)', '(?P<Rule2>V(D[GS]+|SS)V)', '(?P<Rule3>VS{1,}[GDS]+)V']
         self.__patterns = re.compile('|'.join(self.__syllable_patterns))
         
-        self.phoneme_transcription = Transcriptor.Transcriptor(self.word).transcribe('g2p') # we need it as in Ukrainian there are some letters that stand for two different sounds
+        self.phoneme_transcription = Transcriptor(self.word).transcribe('g2p') # we need it as in Ukrainian there are some letters that stand for two different sounds
         self.phonemes = Transcriptor.split_to_phonemes(self.phoneme_transcription).pop()
         self.phoneme_code = self.__get_phoneme_code()
         self.syllables_num = len(self.phoneme_code) - len(self.phoneme_code.replace('V', ''))
@@ -84,4 +84,4 @@ class SyllableSplitter:
         if keep_phoneme_transcription:
             return syllables
         else:
-            return [Transcriptor.Transcriptor(syllable).p2g() for syllable in syllables]
+            return [Transcriptor(syllable).p2g() for syllable in syllables]
