@@ -1,8 +1,10 @@
 # Ukrainian-Syllable-Splitter
 This package is designed to easily split **Ukrainian** words into syllables. 
 
+!!! It takes one word at a time (we might change it in the near future)
+
 ---
-# Ukrainian-Syllable-Splitter
+# Installation
 This package is designed to easily split **Ukrainian** words into syllables. 
 To use run in terminal:
 
