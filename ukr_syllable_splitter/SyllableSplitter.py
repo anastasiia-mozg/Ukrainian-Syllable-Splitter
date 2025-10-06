@@ -5,7 +5,7 @@ from .phoneme_subst_dict import phoneme_to_code_dict
 
 class SyllableSplitter:
     def __init__(self, word):
-        self.word = word
+        self.word = word.lower()
         self.__word_validation_pattern = re.compile('''[-вмлнрйьяюєїбдзжгґпфтсцшщяюєїчкхіуаоие'`]+''')
         self.__validate_word()
         self.__syllable_patterns = ['(?P<Rule1>V([SDG]|[DG]S|GG|DD|DDS|GGS)V)', '(?P<Rule2>V(D[GS]+|SS)V)', '(?P<Rule3>VS{1,}[GDS]+)V']
