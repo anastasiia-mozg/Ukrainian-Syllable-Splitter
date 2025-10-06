@@ -1,5 +1,5 @@
 import re, copy
-from ukrainian_g2p import Transcriptor
+from Transcriptor import Transcriptor
 from phoneme_subst_dict import phoneme_to_code_dict
 
 
