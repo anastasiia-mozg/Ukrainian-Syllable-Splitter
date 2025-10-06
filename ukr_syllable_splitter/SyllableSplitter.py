@@ -1,6 +1,6 @@
 import re, copy
-from Transcriptor import Transcriptor
-from phoneme_subst_dict import phoneme_to_code_dict
+from .Transcriptor import Transcriptor
+from .phoneme_subst_dict import phoneme_to_code_dict
 
 
 class SyllableSplitter:
