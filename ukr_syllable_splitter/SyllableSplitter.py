@@ -8,7 +8,7 @@ class SyllableSplitter:
         self.word = word.lower()
         self.__word_validation_pattern = re.compile('''[-вмлнрйьяюєїбдзжгґпфтсцшщяюєїчкхіуаоие'`]+''')
         self.__validate_word()
-        self.__syllable_patterns = ['(?P<Rule1>V([SDG]|[DG]S|GG|DD|DDS|GGS)V)', '(?P<Rule2>V(D[GS]+|SS)V)', '(?P<Rule3>VS{1,}[GDS]+)V']
+        self.__syllable_patterns = ['(?P<Rule1>V([SDG]|[DG]S|GG|DD|DDS|GGS)V)', '(?P<Rule2>[SDG]VV)', '(?P<Rule3>V(D[GS]+|SS)V)', '(?P<Rule4>VS{1,}[GDS]+)V']
         self.__patterns = re.compile('|'.join(self.__syllable_patterns))
         
         self.phoneme_transcription = Transcriptor(self.word).transcribe('g2p') # we need it as in Ukrainian there are some letters that stand for two different sounds
@@ -50,8 +50,10 @@ class SyllableSplitter:
         if rule_name == 'Rule1':
             return match.start() + 1
         elif rule_name == 'Rule2':
+            return match.end() - 1
+        elif rule_name == 'Rule3':
             return match.start() + 2
-        elif rule_name == 'Rule3': # in this one the index of the border of syllable depends on the last sonorous sound
+        elif rule_name == 'Rule4': # in this one the index of the border of syllable depends on the last sonorous sound
             target = re.search(r'S(?=[GD]+)', code)
             return target.end()
         else:
