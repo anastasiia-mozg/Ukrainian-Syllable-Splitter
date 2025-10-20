@@ -1,6 +1,6 @@
 import re, copy
-from .Transcriptor import Transcriptor, split_to_phonemes
-from .phoneme_subst_dict import phoneme_to_code_dict
+from Transcriptor import Transcriptor, split_to_phonemes
+from phoneme_subst_dict import phoneme_to_code_dict
 
 
 class SyllableSplitter:
@@ -15,6 +15,7 @@ class SyllableSplitter:
         self.phonemes = split_to_phonemes(self.phoneme_transcription).pop()
         self.phoneme_code = self.__get_phoneme_code()
         self.syllables_num = len(self.phoneme_code) - len(self.phoneme_code.replace('V', ''))
+        self.__rules_applied = dict()
 
     # if we don't check the word, we don't get right answer or even get errors
     def __validate_word(self) -> None:
@@ -26,7 +27,7 @@ class SyllableSplitter:
 
         match = re.fullmatch(self.__word_validation_pattern, self.word)
         if not match:
-            raise ValueError("You can only use Ukrainian letters")
+            raise ValueError("You can only use Ukrainian letters. Allowed symbols: \n   -вмлнрйьяюєїбдзжгґпфтсцшщяюєїчкхіуаоие'`")
 
     # the primary reason to encode a word is to make patterns of the syllable splitting more readable and easy for debugging.
     # also the patterns of syllable splitting are written using those codes.
@@ -39,22 +40,26 @@ class SyllableSplitter:
 
 
     def __get_rule(self, match) -> str:
-        rule = str()
         if match:
             groups = match.groupdict()
             rule = next(name for name, value in groups.items() if value)
+        else:
+            rule = "No Pattern was met"
         return rule
 
    
     def __get_border_index(self, match, rule_name:str, code:str) -> int:
+        #syllable border(|)
+        #C = consonant
+        #V = vowel
         if rule_name == 'Rule1':
-            return match.start() + 1
+            return match.start() + 1 # => V|CV
         elif rule_name == 'Rule2':
-            return match.end() - 1
+            return match.end() - 1 # => SV|V
         elif rule_name == 'Rule3':
-            return match.start() + 2
+            return match.start() + 2 # => VC|CV
         elif rule_name == 'Rule4': # in this one the index of the border of syllable depends on the last sonorous sound
-            target = re.search(r'S(?=[GD]+)', code)
+            target = re.search(r'S(?=[GD]+)', code) # => VCC|CV
             return target.end()
         else:
             return len(code)
@@ -69,10 +74,11 @@ class SyllableSplitter:
                 spans.append([left_border, right_border])
                 break
             chunk = copy.deepcopy(self.phoneme_code)
-            for _ in range(self.syllables_num): # the number of syllables = number of vowels
+            for i in range(self.syllables_num): # the number of syllables = number of vowels
                 match = re.search(self.__patterns, chunk)
                 rule = self.__get_rule(match)
                 right_border = self.__get_border_index(match, rule, chunk)
+                self.__rules_applied[chunk] = (rule, match)
                 span = (left_border, right_border)
                 spans.append(span)
                 chunk = self.phoneme_transcription[:right_border] + chunk[right_border:] # we do this to save right indexation
@@ -88,3 +94,10 @@ class SyllableSplitter:
             return syllables
         else:
             return [Transcriptor(syllable).p2g() for syllable in syllables]
+
+    def get_rules_applied(self) -> dict:
+        if not self.__rules_applied:
+            self.get_syllable_spans()
+        return self.__rules_applied
+
+print(SyllableSplitter('діанка').get_rules_applied())
