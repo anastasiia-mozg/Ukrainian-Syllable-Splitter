@@ -1,6 +1,6 @@
 import re, copy
-from Transcriptor import Transcriptor, split_to_phonemes
-from phoneme_subst_dict import phoneme_to_code_dict
+from .Transcriptor import Transcriptor, split_to_phonemes
+from .phoneme_subst_dict import phoneme_to_code_dict
 
 
 class SyllableSplitter:
@@ -99,5 +99,3 @@ class SyllableSplitter:
         if not self.__rules_applied:
             self.get_syllable_spans()
         return self.__rules_applied
-
-print(SyllableSplitter('діанка').get_rules_applied())

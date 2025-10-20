@@ -1,0 +1,10 @@
+README.md
+setup.py
+ukr_syllable_splitter/SyllableSplitter.py
+ukr_syllable_splitter/Transcriptor.py
+ukr_syllable_splitter/__init__.py
+ukr_syllable_splitter/phoneme_subst_dict.py
+ukrainian_syllable_splitter.egg-info/PKG-INFO
+ukrainian_syllable_splitter.egg-info/SOURCES.txt
+ukrainian_syllable_splitter.egg-info/dependency_links.txt
+ukrainian_syllable_splitter.egg-info/top_level.txt
